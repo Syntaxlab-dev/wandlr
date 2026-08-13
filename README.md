@@ -16,18 +16,23 @@ check it yourself:
 - Open your browser's network tab while converting a file — it stays empty.
 - The entire source is right here in this repository. No build step, no
   bundler, no minification of the app code — what you read is what runs.
-- Images are processed with the browser's native Canvas API. PDFs use two
-  well-known open-source libraries ([pdf.js](https://github.com/mozilla/pdf.js)
-  and [pdf-lib](https://github.com/Hopding/pdf-lib)), vendored in `vendor/` and
-  loaded once, then run entirely offline in memory.
+- Images are processed with the browser's native Canvas API (plus
+  [libheif-js](https://github.com/catdad-experiments/libheif-js) for HEIC
+  input, since browsers can't decode that natively). PDFs use two well-known
+  open-source libraries ([pdf.js](https://github.com/mozilla/pdf.js) and
+  [pdf-lib](https://github.com/Hopding/pdf-lib)). All three are vendored in
+  `vendor/`, loaded once, then run entirely offline in memory.
 
 ## What it does
 
-- **Images** — compress and convert between JPEG, PNG and WebP, with a quality
-  slider and a live before/after size comparison. Multiple files at once.
+- **Images** — compress and convert between JPEG, PNG and WebP (including
+  HEIC input from iPhone photos), with a quality slider and a live
+  before/after size comparison. Multiple files at once.
 - **PDF** — compress a PDF by re-rendering each page as an image at your chosen
   quality. This trades selectable/searchable text for a smaller file — a
   deliberate, disclosed trade-off, not a limitation we're hiding.
+- **Installable & offline** — wandlr is a PWA. Install it from your browser
+  and it keeps working without an internet connection after the first visit.
 
 ## Running it locally
 
@@ -41,8 +46,10 @@ python3 -m http.server
 ## Stack
 
 Plain HTML, CSS and JavaScript (ES modules). No framework, no bundler.
-`vendor/` contains the pre-built browser bundles of pdf.js (Apache-2.0) and
-pdf-lib (MIT), used as-is.
+`vendor/` contains the pre-built browser bundles of pdf.js (Apache-2.0),
+pdf-lib (MIT) and libheif-js (LGPL-3.0), used as-is. A service worker
+(`sw.js`) caches the app shell for offline use, and expands its cache with
+the PDF/HEIC engines the first time each is actually used.
 
 ## License
 

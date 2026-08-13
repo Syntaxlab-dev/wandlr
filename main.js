@@ -1,7 +1,17 @@
+import { isHeicFile, decodeHeicToCanvas } from "/heic-decoder.js";
+
 const $ = (sel, root = document) => root.querySelector(sel);
 
 const yearEl = $("#year");
 if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js").catch((err) => {
+      console.error("Service worker registration failed", err);
+    });
+  });
+}
 
 // ---------- Scroll reveal (fallback for browsers without animation-timeline) ----------
 const supportsScrollDrivenAnimation =
@@ -124,10 +134,19 @@ async function processOneImage(file) {
   try {
     bitmap = await createImageBitmap(file);
   } catch (err) {
-    metaEl.textContent = /heic|heif/i.test(file.type + file.name)
-      ? "HEIC isn't supported yet — convert to JPG first"
-      : "Couldn't read this file";
-    return;
+    if (isHeicFile(file)) {
+      try {
+        metaEl.textContent = "Decoding HEIC…";
+        bitmap = await decodeHeicToCanvas(file);
+      } catch (heicErr) {
+        console.error(heicErr);
+        metaEl.textContent = "Couldn't decode this HEIC file";
+        return;
+      }
+    } else {
+      metaEl.textContent = "Couldn't read this file";
+      return;
+    }
   }
 
   const thumb = drawThumb(bitmap, 128);

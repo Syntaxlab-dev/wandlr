@@ -1,0 +1,17 @@
+{
+  "name": "wandlr",
+  "short_name": "wandlr",
+  "description": "Shrink files. Nothing leaves your browser.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b0a14",
+  "theme_color": "#0b0a14",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ]
+}
