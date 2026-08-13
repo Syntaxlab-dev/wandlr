@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>wandlr — shrink files, nothing leaves your browser</title>
+<meta name="description" content="Free, open-source tool to compress and convert images and PDFs. Everything runs locally in your browser — no uploads, no accounts, no tracking.">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="canonical" href="https://wandlr.de/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="wandlr — shrink files, nothing leaves your browser">
+<meta property="og:description" content="Free, open-source tool to compress and convert images and PDFs. 100% client-side.">
+<meta property="og:url" content="https://wandlr.de/">
+<meta name="theme-color" content="#0b0a14">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-nav">
+  <a class="brand" href="#top">
+    <img src="/icon.svg" alt="" width="26" height="26">
+    <span>wandlr</span>
+  </a>
+  <nav aria-label="Primary">
+    <a href="#tools">Tools</a>
+    <a href="#trust">How it works</a>
+    <a href="https://github.com/Syntaxlab-dev/wandlr" target="_blank" rel="noopener">Source ↗</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <section id="top" class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="eyebrow-row">
+      <p class="eyebrow">wandlr.de</p>
+      <span class="handle-badge">open source</span>
+    </div>
+    <h1>
+      <span>Shrink files.</span>
+      <span class="accent">Nothing leaves your browser.</span>
+    </h1>
+    <p class="hero-lede">
+      Compress and convert images and PDFs entirely on your device.
+      No uploads, no accounts, no tracking — just smaller files.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#tools">Start converting</a>
+      <a class="btn btn-ghost" href="https://github.com/Syntaxlab-dev/wandlr" target="_blank" rel="noopener">View source ↗</a>
+    </div>
+  </section>
+
+  <section id="tools" class="tools" data-reveal>
+    <div class="tool-tabs" role="tablist" aria-label="Tool selection">
+      <button class="tab-btn" id="tab-images" role="tab" aria-selected="true" aria-controls="panel-images">Images</button>
+      <button class="tab-btn" id="tab-pdf" role="tab" aria-selected="false" aria-controls="panel-pdf">PDF</button>
+    </div>
+
+    <div class="tool-panel" id="panel-images" role="tabpanel" aria-labelledby="tab-images">
+      <div class="dropzone" id="image-dropzone">
+        <div class="dropzone-icon" aria-hidden="true">↓</div>
+        <p><strong>Drop images here</strong> or click to choose</p>
+        <p class="dropzone-hint">JPG, PNG, WebP — multiple files supported</p>
+        <input type="file" id="image-input" accept="image/png,image/jpeg,image/webp" multiple hidden>
+      </div>
+
+      <div class="tool-controls">
+        <div class="control-group">
+          <label for="image-format">Output format</label>
+          <select id="image-format">
+            <option value="keep">Keep original format</option>
+            <option value="jpeg" selected>JPEG</option>
+            <option value="webp">WebP</option>
+            <option value="png">PNG</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="image-quality">Quality (<span id="image-quality-out">80</span>%)</label>
+          <div class="slider-row">
+            <input type="range" id="image-quality" min="10" max="100" value="80">
+          </div>
+        </div>
+      </div>
+
+      <div class="file-list" id="image-file-list"></div>
+    </div>
+
+    <div class="tool-panel" id="panel-pdf" role="tabpanel" aria-labelledby="tab-pdf" hidden>
+      <div class="dropzone" id="pdf-dropzone">
+        <div class="dropzone-icon" aria-hidden="true">↓</div>
+        <p><strong>Drop a PDF here</strong> or click to choose</p>
+        <p class="dropzone-hint">One file at a time</p>
+        <input type="file" id="pdf-input" accept="application/pdf" hidden>
+      </div>
+
+      <div class="tool-controls">
+        <div class="control-group" style="flex: 1 1 100%;">
+          <label for="pdf-quality">Quality (<span id="pdf-quality-out">70</span>%)</label>
+          <div class="slider-row">
+            <input type="range" id="pdf-quality" min="20" max="95" value="70">
+          </div>
+        </div>
+      </div>
+
+      <div class="notice">
+        <span aria-hidden="true">ⓘ</span>
+        <p><strong>Good to know:</strong> to compress a PDF in the browser, wandlr redraws each page as an
+        image. That makes the file smaller, but the text is no longer selectable or searchable afterwards.
+        If you need to keep selectable text, this tool isn't the right fit — yet.</p>
+      </div>
+
+      <div id="pdf-status" class="file-card" hidden>
+        <canvas width="64" height="64" aria-hidden="true"></canvas>
+        <div>
+          <p class="file-card-name" id="pdf-status-name">—</p>
+          <p class="file-card-meta" id="pdf-status-meta">—</p>
+          <div class="progress-bar"><div class="progress-bar-fill" id="pdf-progress-fill"></div></div>
+        </div>
+        <a class="btn btn-primary btn-small" id="pdf-download" hidden download>Download</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="trust" class="trust" data-reveal>
+    <h2>How we guarantee this</h2>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <p class="num">01</p>
+        <h3>No network requests carry your files</h3>
+        <p>Every file is read straight into memory and processed with your browser's own APIs. Open your
+        browser's network tab while converting — you'll see it stays empty.</p>
+      </div>
+      <div class="trust-card">
+        <p class="num">02</p>
+        <h3>Fully open source</h3>
+        <p>The entire source is public. Read it, run it yourself, or host your own copy —
+        nothing is hidden.</p>
+      </div>
+      <div class="trust-card">
+        <p class="num">03</p>
+        <h3>Just your browser, no black box</h3>
+        <p>Images are re-encoded with the browser's built-in Canvas API. PDFs use two well-known
+        open-source libraries, loaded once and then run entirely offline in memory.</p>
+      </div>
+    </div>
+    <p style="margin-top: var(--space-m);">
+      <a class="btn btn-ghost" href="https://github.com/Syntaxlab-dev/wandlr" target="_blank" rel="noopener">View source on GitHub ↗</a>
+    </p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>&copy; <span id="year">2026</span> wandlr.de</p>
+  <p>MIT licensed &middot; <a href="https://github.com/Syntaxlab-dev/wandlr" target="_blank" rel="noopener">source</a></p>
+</footer>
+
+<script type="module" src="/main.js"></script>
+</body>
+</html>
