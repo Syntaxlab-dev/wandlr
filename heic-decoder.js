@@ -2,7 +2,7 @@ let libheifPromise = null;
 
 function ensureLibheif() {
   if (!libheifPromise) {
-    libheifPromise = import("/vendor/libheif-bundle.mjs").then((mod) => mod.default);
+    libheifPromise = import("/vendor/libheif-bundle.js").then((mod) => mod.default);
   }
   return libheifPromise;
 }

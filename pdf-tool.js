@@ -22,8 +22,8 @@ let pdfLibReady = null;
 
 async function ensureLibraries() {
   if (!pdfjsLib) {
-    pdfjsLib = await import("/vendor/pdf.min.mjs");
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "/vendor/pdf.worker.min.mjs";
+    pdfjsLib = await import("/vendor/pdf.min.js");
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "/vendor/pdf.worker.min.js";
   }
   if (!pdfLibReady) {
     pdfLibReady = window.PDFLib ? Promise.resolve() : loadClassicScript("/vendor/pdf-lib.min.js");
